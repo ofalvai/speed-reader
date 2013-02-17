@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Speed reader</title>
+        <link href='http://fonts.googleapis.com/css?family=Crete+Round:400,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="desktop.css" />
+    </head>
+    <body>
+        <div id="container">
+            <h1>Speed reader</h1>
+            <textarea id="text-to-read">Wikipedia: Speed reading is the name for a number of ways to increase the speed at which a text can be read, so that the important facts of the text can still be understood. There are different ways to improve reading speed, but they are all similar. A trained reader is able to read and understand between 200 and 300 words per minute, for a text that is not very difficult to understand. Better training can improve this speed to over 1000 words per minute. Using a lot of exercise, it is possible to increase reading speed further. The best readers can read between 3000 and 4000 words per minute, and understand about 80% of them.</textarea>
+            <div id="reading-screen">
+                <div id="word"></div>
+                <input id="text-progress" type="range" />
+            </div>
+            <div id="options">
+                <span id="wpm">Words per minute (WPM):</span>
+                <input id="reading-speed" type="number" value="200" step="25" min="0" max="1000" />
+                <span id="text-info"></span>
+            </div>
+            <button class="btn" id="start">Read!</button>
+            <button class="btn" id="new">New text</button>
+        </div>
+        <div id="other">
+            <div id="desc">
+                <p>Paste the text you want to speedread, and click the <em>Read!</em> button. Additionally, you can set the reading speed, but the default 200 words per minute is optimal for an untrained reader.
+                </p>
+                <p>You can pause the reading by pressing <em>P</em> or <em>Space</em>.</p>
+                <p>I'll add more features in the future, such as:</p>
+                <ul>
+                    <li>More options</li>
+                    <li>A bookmarklet</li>
+                    <li>Responsive layout for mobiles, tablets, etc.</li>
+                    <li>Night mode</li>
+                </ul>
+            </div>
+        </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="jquery-1.8.3.min.js"><\/script>')</script>
+        <script src="app.js"></script>
+    </body>
+</html>

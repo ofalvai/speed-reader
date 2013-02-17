@@ -1,0 +1,118 @@
+/* Eric Meyer's Reset CSS v2.0 - http://cssreset.com */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
+
+body {
+    background: #f2f1ef;
+    color: #3d3c37;
+    font-family: 'Crete Round', 'Georgia', 'Times New Roman';
+    font-size: 16px;
+}
+h1 {
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+p {
+    line-height: 1.5em;
+    margin: 10px 0;
+    padding: 0 5px;
+}
+em {
+    font-weight: normal;
+    color: #4BA9A9;
+}
+#container {
+    width: 560px;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding: 20px;
+    background: #fbfbfb;
+    border-radius: 3px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+#other {
+    width: 560px;
+    margin: 20px auto;
+    padding: 20px;
+}
+#text-to-read {
+    width: 538px;
+    height: 300px;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #3d3c37;
+    background: #fff;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    color: #3d3c37;
+    line-height: 1.5em;
+    resize: vertical;
+}
+
+#reading-screen {
+    display: none;
+    width: 560px;
+    height: 322px;
+}
+#word {
+    width: 580px;
+    height: 300px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 72px;
+    word-break: break-all;
+}
+#options {
+    margin: 10px 0;
+}
+#wpm {
+    float: left;
+}
+#reading-speed {
+    position: relative;
+    bottom: 5px;
+    margin-left: 10px;
+}
+#text-info {
+    float: right;
+}
+#text-progress {
+    width: 558px;
+}
+#new {
+    display: none;
+}
+.btn {
+    width: 100px;
+    padding: 7px 20px;
+    margin-right: 20px;
+    border: 1px solid #265757;
+    border-radius: 3px;
+    background: -webkit-linear-gradient(#5EB8B8, #4BA9A9);
+    background: -moz-linear-gradient(#5EB8B8, #4BA9A9);
+    background: -o-linear-gradient(#5EB8B8, #4BA9A9);
+    background: linear-gradient(#5EB8B8, #4BA9A9);
+    box-shadow: 0 1px 0 #265757, inset 0 0px 2px #fff, 0 0 7px rgba(0, 0, 0, 0.25);
+    color: #fff;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
+    cursor: pointer;
+    font-family: 'Crete Round', 'Georgia', 'Times New Roman';
+}
+.btn:hover {
+    background: -webkit-linear-gradient(#75c2c2, #4BA9A9);
+    background: -moz-linear-gradient(#75c2c2, #4BA9A9);
+    background: -o-linear-gradient(#75c2c2, #4BA9A9);
+    background: linear-gradient(#75c2c2, #4BA9A9);
+}
+.btn:active {
+    background: -webkit-linear-gradient(#4BA9A9, #5EB8B8);
+    background: -moz-linear-gradient(#4BA9A9, #5EB8B8);
+    background: -o-linear-gradient(#4BA9A9, #5EB8B8);
+    background: linear-gradient(#4BA9A9, #5EB8B8);
+}
+li {
+    margin-left: 30px;
+    list-style-type: circle;
+    line-height: 1.5em;
+}
