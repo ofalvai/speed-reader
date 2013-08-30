@@ -126,6 +126,26 @@ li {
     line-height: 1.5em;
 }
 
+/* Night mode */
+body.night {
+    background-color: #111;
+    color: #ddd;
+}
+.night #container {
+    background-color: #000;
+}
+.night #text-to-read {
+    background: #111;
+    color: #ddd;
+}
+.night #word {
+    color: #fff;
+}
+.night #reading-speed {
+    background-color: #222;
+    color: #ddd;
+    border-width: 1px;
+}
 
 
 /* Responsive styles */

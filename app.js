@@ -1,14 +1,11 @@
-/*TODO
-Bookmarklet!
-Night mode
-Mobile
-*/
+
 
 var readInterval,
     readIndex = 0,
     textArray = [],
     prefs = {
-        speed: 200
+        speed: 200,
+        night: false
     };
 
 function prepare(text) {
@@ -84,6 +81,10 @@ $(document).ready(function() {
     }
 
     $('#reading-speed').val(prefs.speed);
+    if(prefs.night === true) {
+        $('body').addClass('night');
+        $('#night-mode').attr('checked', 'checked');
+    }
 
 
     $('#start').on('click', function() {
@@ -149,6 +150,17 @@ $(document).ready(function() {
         if($('body').data('reading') === true) {
             stop();
         }
+    });
+
+    $('#night-mode').on('change', function() {
+        if($(this).is(':checked')) {
+            $('body').addClass('night');
+            prefs.night = true;
+        } else {
+            $('body').removeClass('night');
+            prefs.night = false;
+        }
+        savePrefs();
     });
 
     $('body').on('keyup', function(e) {
