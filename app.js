@@ -124,17 +124,17 @@ $(document).ready(function() {
         }
     });
 
-    $('#text-progress').on('mousedown', function() {
+    $('#text-progress').on('mousedown touchstart', function() {
         if($('body').data('reading')) {
             stop();
             $('body').data('reading', 'paused');
         }
-        $(this).on('mousemove', function() {
+        $(this).on('mousemove touchmove', function() {
             var newIndex = $(this).val();
             $('#word').html(textArray[newIndex]);
 
         });
-    }).on('mouseup', function() {
+    }).on('mouseup touchend', function() {
         readIndex = $(this).val();
         $(this).off('mousemove');
         if($('body').data('reading') === 'paused') {
