@@ -7,7 +7,9 @@ Mobile
 var readInterval,
     readIndex = 0,
     textArray = [],
-    speed = 200;
+    prefs = {
+        speed: 200
+    };
 
 function prepare(text) {
     textArray = [];
@@ -36,7 +38,7 @@ function start() {
     if(textArray.length === 0) {
         return false;
     }
-    interval = 1000 / (speed / 60);
+    interval = 1000 / (prefs.speed / 60);
     readInterval = window.setInterval(flashWords, interval, textArray);
     $('#start').html('Pause');
     $('body').data('reading', true);
@@ -65,11 +67,23 @@ function flashWords(array) {
     }).show();
 }
 
+function savePrefs() {
+    localStorage.setItem('prefs', JSON.stringify(prefs));
+}
+
 
 
 $(document).ready(function() {
     $('body').data({'reading': false, 'prepared': false});
     prepare($('#text-to-read').val().split(' '));
+
+    if(localStorage.getItem('prefs') === null) {
+        localStorage.setItem('prefs', JSON.stringify(prefs));
+    } else {
+        prefs = JSON.parse(localStorage.getItem('prefs'));
+    }
+
+    $('#reading-speed').val(prefs.speed);
 
 
     $('#start').on('click', function() {
@@ -77,8 +91,8 @@ $(document).ready(function() {
         if(data.reading === false) {
             if(data.prepared === false) {
                 var text = $('#text-to-read').val().split(' ');
-                speed = $('#reading-speed').val();
-                if(text.length > 1 && speed > 0) {
+                prefs.speed = $('#reading-speed').val();
+                if(text.length > 1 && prefs.speed > 0) {
                     prepare(text);
                 } else {
                     alert('No text to read (or invalid speed settings)');
@@ -101,7 +115,8 @@ $(document).ready(function() {
     });
 
     $('#reading-speed').on('change', function() {
-        speed = $(this).val();
+        prefs.speed = $(this).val();
+        savePrefs();
         if($('body').data('reading') === true) {
             stop();
             start();
