@@ -1,42 +1,67 @@
 
 
-var readInterval,
+var readInterval = null,
     readIndex = 0,
-    textArray = [],
+    preparedChunks = [],
     prefs = {
         speed: 200,
-        night: false
+        night: false,
+        merge: true
     };
 
+
 function prepare(text) {
-    textArray = [];
-    for(var i = 0, l = text.length; i < l; i++) {
-        var word = text[i];
-        if(word !== '') {
-            if(/\n/.test(word)) {
-                var tempArray = word.split('\n');
-                for(var i2 = 0, l2 = tempArray.length; i2 < l2; i2++) {
-                    if(tempArray[i2] !== '') {
-                        var trimmedWord = $('<div />').text($.trim(tempArray[i2])).html();
-                        textArray.push(trimmedWord);
-                    }
-                }
-            } else {
-                var trimmedWord = $('<div />').text($.trim(word)).html();
-                textArray.push(trimmedWord);
+    preparedChunks = [];
+
+    // Splitting text into an array of words, and some cleanup
+    var lines = text.split('\n'),
+        words = [];
+    for(i = 0; i < lines.length; i++) {
+        var lineWords = lines[i].split(' ');
+        for(i2 = 0; i2 < lineWords.length; i2++) {
+            if(lineWords[i2] !== '') {
+                var trimmedWord = $('<div />').text($.trim(lineWords[i2])).html();
+                words.push(trimmedWord);
             }
         }
     }
-    $('#text-info').html('Words: ' + textArray.length).show();
+
+    var merged = false;
+    for(i = 0; i < words.length; i++) {
+        if(word !== '') {
+            var isSentenceEnd = false,
+                dotPattern = /.*\./;
+            // There will be a longer delay after sentence endings
+            if(words[i].match(dotPattern)) {
+                isSentenceEnd = true;
+            }
+            // If a word is not longer than 3 chars, we merge it with the previous
+            if(prefs.merge && words[i].length <= 3 && !merged) {
+                var index = preparedChunks.length - 1;
+                preparedChunks[index].text += ' ' + words[i];
+                preparedChunks[index].sentenceEnd = isSentenceEnd;
+                merged = true;
+            } else {
+                preparedChunks.push({text: words[i], sentenceEnd: isSentenceEnd});
+                merged = false;
+            }
+        }
+    }
+
+    $('#text-info').html('Words: ' + words.length).show();
     $('body').data('prepared', true);
 }
 
+
+
+
+
 function start() {
-    if(textArray.length === 0) {
+    if(preparedChunks.length === 0) {
         return false;
     }
     interval = 1000 / (prefs.speed / 60);
-    readInterval = window.setInterval(flashWords, interval, textArray);
+    readInterval = window.setInterval(flashWords, interval, preparedChunks);
     $('#start').html('Pause');
     $('body').data('reading', true);
 }
@@ -48,7 +73,7 @@ function stop() {
 }
 
 function flashWords(array) {
-    var word = array[readIndex],
+    var chunk = array[readIndex],
         length = array.length;
     if(readIndex == length) {
         stop();
@@ -56,9 +81,9 @@ function flashWords(array) {
     } else {
         readIndex++;
     }
-    $('#word').html(word);
+    $('#word').html(chunk.text);
     $('#text-progress').attr({
-        'max': textArray.length,
+        'max': preparedChunks.length,
         'value': readIndex,
         'step': 1
     }).show();
@@ -71,9 +96,6 @@ function savePrefs() {
 
 
 $(document).ready(function() {
-    $('body').data({'reading': false, 'prepared': false});
-    prepare($('#text-to-read').val().split(' '));
-
     if(localStorage.getItem('prefs') === null) {
         localStorage.setItem('prefs', JSON.stringify(prefs));
     } else {
@@ -85,13 +107,18 @@ $(document).ready(function() {
         $('body').addClass('night');
         $('#night-mode').attr('checked', 'checked');
     }
+    if(prefs.merge === false) {
+        $('#merge').attr('checked', false);
+    }
 
+    $('body').data({'reading': false, 'prepared': false});
+    prepare($('#text-to-read').val());
 
     $('#start').on('click', function() {
         var data = $('body').data();
         if(data.reading === false) {
             if(data.prepared === false) {
-                var text = $('#text-to-read').val().split(' ');
+                var text = $('#text-to-read').val();
                 prefs.speed = $('#reading-speed').val();
                 if(text.length > 1 && prefs.speed > 0) {
                     prepare(text);
@@ -105,6 +132,7 @@ $(document).ready(function() {
             });
             $('h1').animate({height: 0, opacity: 0}, 500);
             $('#other').fadeOut(500);
+            $('#merge').attr('disabled', true).parent().css('opacity', 0.5);
         } else {
             stop();
         }
@@ -112,7 +140,7 @@ $(document).ready(function() {
 
     $('#text-to-read').on('keyup', function() {
         readIndex = 0;
-        prepare($(this).val().split(' '));
+        prepare($(this).val())
     });
 
     $('#reading-speed').on('change', function() {
@@ -131,7 +159,7 @@ $(document).ready(function() {
         }
         $(this).on('mousemove touchmove', function() {
             var newIndex = $(this).val();
-            $('#word').html(textArray[newIndex]);
+            $('#word').html(preparedChunks[newIndex].text);
 
         });
     }).on('mouseup touchend', function() {
@@ -147,6 +175,7 @@ $(document).ready(function() {
         $('#text-to-read, #other').fadeIn(500);
         $('h1').animate({height: '26px', opacity: 1}, 500);
         $(this).fadeOut(500);
+        $('#merge').attr('disabled', false).parent().css('opacity', 1);
         if($('body').data('reading') === true) {
             stop();
         }
@@ -161,6 +190,16 @@ $(document).ready(function() {
             prefs.night = false;
         }
         savePrefs();
+    });
+
+    $('#merge').on('change', function() {
+        if($(this).is(':checked')) {
+            prefs.merge = true;
+        } else {
+            prefs.merge = false;
+        }
+        savePrefs();
+        prepare($('#text-to-read').val());
     });
 
     $('body').on('keyup', function(e) {

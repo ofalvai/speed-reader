@@ -72,17 +72,24 @@ em {
 #options {
     margin: 10px 0;
 }
+.row {
+    height: 30px;
+}
 #wpm {
     float: left;
 }
 #reading-speed {
-    position: relative;
-    bottom: 5px;
-    margin-left: 10px;
     width: 70px;
+    margin: 0;
+    margin-left: 10px;
+    margin-top: -3px;
 }
 #text-info {
     float: right;
+}
+input[type="checkbox"] {
+    position: relative;
+    top: 1px;
 }
 #text-progress {
     width: 100%;
