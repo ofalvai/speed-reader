@@ -119,7 +119,7 @@ $(document).ready(function() {
         if(data.reading === false) {
             if(data.prepared === false) {
                 var text = $('#text-to-read').val();
-                prefs.speed = $('#reading-speed').val();
+                prefs.speed = parseInt($('#reading-speed').val());
                 if(text.length > 1 && prefs.speed > 0) {
                     prepare(text);
                 } else {
@@ -144,7 +144,8 @@ $(document).ready(function() {
     });
 
     $('#reading-speed').on('change', function() {
-        prefs.speed = $(this).val();
+        prefs.speed = parseInt($(this).val());
+        console.log(prefs.speed)
         savePrefs();
         if($('body').data('reading') === true) {
             stop();
@@ -203,16 +204,39 @@ $(document).ready(function() {
     });
 
     $('body').on('keyup', function(e) {
+        console.log(e.keyCode)
         if($('#text-to-read').is(':focus')) {
             return false;
         }
-        //P or Space
-        if(e.keyCode === 80 || e.keyCode == 32) {
+        if(e.keyCode == 80 || e.keyCode == 32) {
+            // P or Space
+            // Play/pause
             if($('body').data('reading') === true) {
                 stop();
             } else {
                 start();
             }
+        } else if(e.keyCode == 39) {
+            // Right arrow
+            // Increase WPM by 25
+            $('#reading-speed').val(prefs.speed + 25).trigger('change');
+        } else if(e.keyCode == 37) {
+            // Left arrow
+            // Decrease WPM by 25
+            $('#reading-speed').val(prefs.speed - 25).trigger('change');
+        } else if(e.keyCode == 66) {
+            // B key
+            // Go back 10 words
+            if($('body').data().reading === true) {
+                if(readIndex < 10) {
+                    readIndex = 0;
+                } else {
+                    readIndex = readIndex - 10;
+                }
+                $('#word').html(preparedChunks[readIndex].text);
+                $('#text-progress').val(readIndex);
+            }
+
         }
     });
 });
