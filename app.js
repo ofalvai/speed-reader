@@ -26,17 +26,17 @@ function prepare(text) {
         }
     }
 
-    var merged = false;
+    var merged = false,
+        dotPattern = /.*\./;
     for(i = 0; i < words.length; i++) {
         if(word !== '') {
-            var isSentenceEnd = false,
-                dotPattern = /.*\./;
+            var isSentenceEnd = false;
             // There will be a longer delay after sentence endings
             if(words[i].match(dotPattern)) {
                 isSentenceEnd = true;
             }
             // If a word is not longer than 3 chars, we merge it with the previous
-            if(prefs.merge && words[i].length <= 3 && !merged) {
+            if(prefs.merge && words[i].length <= 3 && !merged && i > 0) {
                 var index = preparedChunks.length - 1;
                 preparedChunks[index].text += ' ' + words[i];
                 preparedChunks[index].sentenceEnd = isSentenceEnd;
