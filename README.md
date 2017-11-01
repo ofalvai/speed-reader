@@ -1,4 +1,4 @@
-#Speed Reader#
+# Speed Reader
 
 [**Live Demo**](http://htmlpreview.github.com/?https://github.com/ofalvai/speed-reader/blob/master/speedreader.html)
 
